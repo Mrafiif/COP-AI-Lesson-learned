@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Laporan COP Lesson Learned &amp; Rekomendasi Kebijakan — BPPK PUSDIKLAT KP</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#F5F8FF;--surf:#FFFFFF;--surf2:#EEF3FB;--border:#BDD0F0;
+  --accent:#1A56B0;--accent2:#2563EB;--gold:#D4A017;--green:#059669;
+  --red:#EF4444;--text:#0D1B3E;--muted:#4A6FA5;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;
+  background-image:radial-gradient(ellipse 80% 50% at 15% -5%,rgba(26,86,176,.08) 0%,transparent 60%),
+  radial-gradient(ellipse 60% 40% at 85% 105%,rgba(212,160,23,.1) 0%,transparent 60%);}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;
+  border-bottom:2px solid var(--gold);background:rgba(26,86,176,.97);
+  backdrop-filter:blur(16px);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;}
+.logo span{color:var(--gold);}
+.nav-tabs{display:flex;gap:.3rem;}
+.tab{padding:.45rem 1.1rem;border-radius:8px;font-size:.82rem;font-weight:600;
+  cursor:pointer;border:1px solid transparent;transition:all .2s;color:rgba(255,255,255,.7);}
+.tab:hover{color:#fff;background:rgba(255,255,255,.12);}
+.tab.active{color:#fff;background:rgba(212,160,23,.25);border-color:rgba(212,160,23,.6);}
+.nav-badge{font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.3);padding:.2rem .65rem;border-radius:999px;}
+main{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem 6rem;}
+.page{display:none;}.page.active{display:block;}
+
+/* HERO */
+.hero{text-align:center;margin-bottom:2.5rem;}
+.hero-eyebrow{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent2);background:rgba(59,130,246,.1);
+  border:1px solid rgba(59,130,246,.25);padding:.25rem 1rem;border-radius:999px;margin-bottom:1rem;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);
+  line-height:1.15;font-weight:700;margin-bottom:.8rem;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero p{color:var(--muted);font-size:.95rem;max-width:500px;margin:0 auto;line-height:1.7;}
+
+/* CARD */
+.card{background:var(--surf);border:1px solid var(--border);border-radius:16px;
+  padding:1.6rem 1.8rem;margin-bottom:1.2rem;position:relative;overflow:hidden;
+  box-shadow:0 2px 12px rgba(26,86,176,.07);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent));opacity:.7;}
+.card-title{font-size:.67rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent2);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem;}
+.card-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.slabel{font-size:.63rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);border-left:3px solid var(--gold);padding-left:.5rem;margin:1.2rem 0 .75rem;}
+
+/* FORM */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+.full{grid-column:1/-1;}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:.35rem;}
+.field label{font-size:.71rem;font-weight:500;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+.field input,.field textarea,.field select{background:var(--surf2);border:1px solid var(--border);
+  border-radius:8px;padding:.6rem .85rem;color:var(--text);font-family:'DM Sans',sans-serif;
+  font-size:.88rem;outline:none;transition:border-color .2s;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,86,176,.1);}
+.field input::placeholder,.field textarea::placeholder{color:#9AB0CC;}
+.field textarea{resize:vertical;min-height:70px;}
+.field select option{background:var(--surf);}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--border);border-radius:12px;padding:2rem;
+  text-align:center;cursor:pointer;transition:all .25s;background:rgba(26,86,176,.02);position:relative;}
+.upload-zone:hover,.upload-zone.drag-active{border-color:var(--accent);background:rgba(26,86,176,.05);}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;}
+.upload-icon{width:48px;height:48px;background:rgba(26,86,176,.1);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto .8rem;font-size:1.3rem;}
+.upload-zone h3{font-size:.9rem;font-weight:600;margin-bottom:.25rem;color:var(--text);}
+.upload-zone p{font-size:.8rem;color:var(--muted);}
+.file-pill{display:flex;align-items:center;gap:.75rem;background:rgba(26,86,176,.06);
+  border:1px solid rgba(26,86,176,.2);border-radius:10px;padding:.7rem 1rem;margin-top:.8rem;}
+.file-pill .fi{font-size:1.1rem;}.file-pill .fn{flex:1;text-align:left;}
+.file-pill .fn b{font-size:.86rem;display:block;}
+.file-pill .fn small{font-size:.7rem;color:var(--muted);}
+.file-pill button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.95rem;padding:.2rem;transition:color .2s;}
+.file-pill button:hover{color:var(--red);}
+
+/* BUTTONS */
+.btn-main{width:100%;padding:.9rem;border:none;border-radius:12px;
+  background:linear-gradient(135deg,#1A56B0,#2563EB);color:#fff;font-family:'DM Sans',sans-serif;
+  font-size:.95rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  gap:.6rem;transition:all .25s;box-shadow:0 4px 24px rgba(26,86,176,.25);}
+.btn-main:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,86,176,.4);}
+.btn-main:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.btn-green{background:linear-gradient(135deg,#047857,#059669);}
+.btn-green:hover:not(:disabled){box-shadow:0 8px 32px rgba(5,150,105,.4);}
+
+/* PESERTA TABLE */
+.peserta-table{width:100%;border-collapse:collapse;margin-bottom:.75rem;font-size:.84rem;}
+.peserta-table th{background:rgba(26,86,176,.08);color:var(--accent2);font-size:.66rem;
+  letter-spacing:.1em;text-transform:uppercase;padding:.5rem .7rem;border:1px solid var(--border);text-align:left;}
+.peserta-table td{padding:.4rem .6rem;border:1px solid rgba(189,208,240,.5);vertical-align:middle;}
+.peserta-table tr:nth-child(even) td{background:rgba(26,86,176,.03);}
+.peserta-table td input{background:transparent;border:none;color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:.84rem;width:100%;outline:none;padding:.1rem 0;}
+.peserta-table td input:focus{border-bottom:1px solid var(--accent);}
+.peserta-table td.no{color:var(--muted);text-align:center;width:34px;}
+.btn-add{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .85rem;
+  border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;
+  background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.3);color:var(--green);}
+.btn-add:hover{background:rgba(5,150,105,.2);}
+.btn-del{background:none;border:none;color:#9AB0CC;cursor:pointer;padding:.2rem .4rem;
+  font-size:.82rem;transition:color .2s;}
+.btn-del:hover{color:var(--red);}
+
+/* PROGRESS */
+.steps{display:flex;flex-direction:column;gap:.55rem;}
+.step{display:flex;align-items:center;gap:.8rem;padding:.65rem .95rem;border-radius:10px;background:var(--surf2);transition:all .3s;}
+.step.active{background:rgba(26,86,176,.08);border:1px solid rgba(26,86,176,.2);}
+.step.done{background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.2);}
+.step-ic{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;
+  align-items:center;justify-content:center;font-size:.82rem;
+  background:var(--surf);color:var(--muted);border:1px solid var(--border);}
+.step.active .step-ic{background:rgba(26,86,176,.1);color:var(--accent2);border-color:var(--accent);animation:pulse 1.5s infinite;}
+.step.done .step-ic{background:rgba(5,150,105,.1);color:var(--green);border-color:var(--green);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(26,86,176,.35);}50%{box-shadow:0 0 0 6px rgba(26,86,176,0);}}
+.step-txt .st{font-size:.86rem;font-weight:500;}
+.step-txt .sd{font-size:.7rem;color:var(--muted);margin-top:.06rem;}
+
+/* RESULT */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.3rem;}
+.stat{background:var(--surf2);border:1px solid var(--border);border-radius:10px;padding:.9rem;text-align:center;}
+.stat-v{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent2);font-weight:600;}
+.stat-l{font-size:.66rem;color:var(--muted);margin-top:.18rem;text-transform:uppercase;letter-spacing:.08em;}
+.preview{max-height:320px;overflow-y:auto;border:1px solid var(--border);
+  border-radius:10px;padding:.4rem;margin-bottom:1.3rem;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.seg{display:flex;gap:.65rem;padding:.55rem .7rem;border-radius:8px;margin-bottom:.12rem;transition:background .2s;}
+.seg:hover{background:var(--surf2);}
+.seg-t{font-size:.67rem;color:var(--muted);font-family:monospace;min-width:44px;padding-top:2px;flex-shrink:0;}
+.seg-s{font-size:.72rem;font-weight:600;color:var(--accent2);min-width:80px;padding-top:2px;flex-shrink:0;}
+.seg-x{font-size:.84rem;line-height:1.55;}
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.btn-dl{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1rem;
+  border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:600;
+  cursor:pointer;transition:all .2s;border:1px solid;}
+.btn-docx{background:rgba(26,86,176,.07);border-color:rgba(26,86,176,.25);color:var(--accent2);}
+.btn-docx:hover{background:rgba(26,86,176,.15);transform:translateY(-1px);}
+.btn-pdf{background:rgba(212,160,23,.1);border-color:rgba(212,160,23,.35);color:#9A7000;}
+.btn-pdf:hover{background:rgba(212,160,23,.2);transform:translateY(-1px);}
+.btn-reset{display:block;margin-top:.8rem;background:none;border:1px solid var(--border);
+  color:var(--muted);padding:.45rem 1rem;border-radius:8px;font-size:.8rem;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-reset:hover{border-color:var(--accent);color:var(--accent2);}
+
+/* ENROLLMENT */
+.enroll-tip{background:rgba(26,86,176,.05);border:1px solid rgba(26,86,176,.15);
+  border-radius:10px;padding:.9rem 1.1rem;font-size:.82rem;color:var(--muted);
+  line-height:1.65;margin-bottom:1.2rem;}
+.enroll-tip strong{color:var(--accent2);}
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.9rem;margin-top:1rem;}
+.profile-card{background:var(--surf2);border:1px solid var(--border);border-radius:12px;
+  padding:1rem 1.1rem;position:relative;transition:border-color .2s;}
+.profile-card:hover{border-color:rgba(26,86,176,.4);}
+.profile-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1A56B0,#2563EB);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:.65rem;}
+.profile-name{font-size:.9rem;font-weight:600;margin-bottom:.18rem;}
+.profile-meta{font-size:.73rem;color:var(--muted);line-height:1.5;}
+.profile-del{position:absolute;top:.65rem;right:.65rem;background:none;border:none;
+  color:#9AB0CC;cursor:pointer;font-size:.85rem;padding:.2rem .35rem;border-radius:6px;
+  transition:all .2s;}
+.profile-del:hover{color:var(--red);background:rgba(239,68,68,.1);}
+.no-profiles{text-align:center;padding:2rem;color:var(--muted);font-size:.88rem;}
+
+/* ERROR */
+.error-box{display:none;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;
+  background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);
+  border-radius:10px;color:#B91C1C;font-size:.84rem;margin-top:.85rem;}
+.error-box.show{display:flex;}
+.success-box{display:none;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;
+  background:rgba(5,150,105,.06);border:1px solid rgba(5,150,105,.2);
+  border-radius:10px;color:#065F46;font-size:.84rem;margin-top:.85rem;}
+.success-box.show{display:flex;}
+
+/* VOICE VERIFY */
+.verify-box{border-radius:12px;padding:1.1rem 1.3rem;margin-top:.9rem;border:1px solid;}
+.verify-pass{background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.25);}
+.verify-fail{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.25);}
+.verify-warn{background:rgba(212,160,23,.06);border-color:rgba(212,160,23,.25);}
+.verify-score{font-size:2rem;font-weight:700;font-family:'Playfair Display',serif;}
+.verify-score.pass{color:var(--green);}
+.verify-score.fail{color:var(--red);}
+.verify-score.warn{color:var(--gold);}
+.verify-header{display:flex;align-items:center;gap:1rem;margin-bottom:.8rem;}
+.verify-label{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
+.verify-issues{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.8rem;}
+.issue-item{display:flex;align-items:flex-start;gap:.5rem;font-size:.8rem;padding:.35rem .6rem;border-radius:7px;}
+.issue-error{background:rgba(239,68,68,.08);color:#B91C1C;}
+.issue-warning{background:rgba(212,160,23,.08);color:#92400E;}
+.verify-transcript{background:rgba(26,86,176,.04);border:1px solid var(--border);border-radius:8px;
+  padding:.6rem .85rem;font-size:.8rem;color:var(--muted);font-style:italic;margin-bottom:.75rem;}
+.verify-detail{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.6rem;}
+.vd-item{background:rgba(26,86,176,.04);border-radius:7px;padding:.45rem .6rem;text-align:center;}
+.vd-val{font-size:.95rem;font-weight:600;color:var(--accent2);}
+.vd-lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.btn-verify{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;
+  border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;
+  background:rgba(212,160,23,.08);border:1px solid rgba(212,160,23,.3);color:#92400E;
+  font-family:'DM Sans',sans-serif;}
+.btn-verify:hover{background:rgba(212,160,23,.18);}
+.btn-verify:disabled{opacity:.4;cursor:not-allowed;}
+
+/* KESIMPULAN */
+.kesimpulan-box{background:rgba(26,86,176,.04);border:1px solid rgba(26,86,176,.15);
+  border-radius:12px;padding:1rem 1.2rem;margin-bottom:1rem;}
+.kesimpulan-box .card-title{margin-bottom:.7rem;}
+.kesimpulan-content{font-size:.86rem;line-height:1.8;color:var(--text);white-space:pre-line;}
+.ai-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;background:rgba(26,86,176,.1);
+  color:var(--accent2);border:1px solid rgba(26,86,176,.25);padding:.15rem .6rem;border-radius:999px;margin-left:.5rem;}
+
+/* MISC */
+.hidden{display:none !important;}
+
+/* DAFTAR ISI — TABLE */
+.di-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:.75rem;}
+.di-table th{background:rgba(26,86,176,.09);color:var(--accent2);font-size:.67rem;
+  letter-spacing:.1em;text-transform:uppercase;padding:.5rem .75rem;
+  border:1px solid var(--border);text-align:left;font-weight:700;}
+.di-table th.th-no{width:52px;text-align:center;}
+.di-table th.th-hal{width:72px;text-align:center;}
+.di-table th.th-act{width:120px;text-align:center;}
+.di-table td{padding:.35rem .6rem;border:1px solid rgba(189,208,240,.5);vertical-align:middle;}
+.di-table tr.tr-bab td{background:rgba(26,86,176,.04);}
+.di-table tr.tr-sub td{background:rgba(255,255,255,.6);}
+.di-table tr:hover td{background:rgba(26,86,176,.07);}
+.di-table td.td-no{text-align:center;color:var(--muted);font-size:.82rem;font-weight:600;}
+.di-table td.td-no.no-sub{color:var(--muted);font-weight:400;font-size:.78rem;padding-left:1.4rem;}
+.di-table td input{background:transparent;border:none;color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:.85rem;width:100%;outline:none;padding:.1rem 0;}
+.di-table td.td-bab-judul input{font-weight:600;}
+.di-table td.td-sub-judul input{padding-left:.5rem;font-size:.83rem;}
+.di-table td input:focus{border-bottom:1px solid var(--accent);}
+.di-table td.td-hal input{text-align:center;font-size:.82rem;}
+.di-table td.td-act{text-align:center;}
+.btn-sub-tbl{display:inline-flex;align-items:center;gap:.2rem;padding:.22rem .55rem;
+  border-radius:5px;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;
+  background:rgba(212,160,23,.09);border:1px solid rgba(212,160,23,.35);color:#92400E;
+  font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.btn-sub-tbl:hover{background:rgba(212,160,23,.2);}
+.btn-del-row{background:none;border:none;color:#C4D3E8;cursor:pointer;
+  font-size:.82rem;padding:.2rem .35rem;border-radius:5px;transition:color .2s;}
+.btn-del-row:hover{color:var(--red);}
+.di-footer-row{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem;}
+.di-count{font-size:.72rem;color:var(--muted);}
+.btn-add-bab-tbl{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .9rem;
+  border-radius:8px;font-size:.79rem;font-weight:600;cursor:pointer;transition:all .2s;
+  background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.3);color:var(--green);
+  font-family:'DM Sans',sans-serif;}
+.btn-add-bab-tbl:hover{background:rgba(5,150,105,.18);}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.peserta-hint{font-size:.7rem;color:var(--muted);margin-bottom:.55rem;}
+.badge-enrolled{display:inline-block;font-size:.62rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;background:rgba(5,150,105,.1);color:var(--green);
+  border:1px solid rgba(5,150,105,.25);padding:.15rem .55rem;border-radius:999px;margin-left:.4rem;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">COP<span>-PUSDIKLAT KP</span></div>
+  <div class="nav-tabs">
+    <div class="tab active" onclick="showPage('pgNotula',this)">🎙️ Dari Rekaman</div>
+    <div class="tab" onclick="showPage('pgTranscript',this)">📄 Dari Transkrip</div>
+    <div class="tab" onclick="showPage('pgEnroll',this)">🎤 Daftar Suara</div>
+  </div>
+  <span class="nav-badge">BPPK · PUSDIKLAT KP</span>
+</nav>
+
+<main>
+
+<!-- ══════════════════ PAGE: BUAT NOTULA ══════════════════ -->
+<div class="page active" id="pgNotula">
+
+  <div class="hero">
+    <div class="hero-eyebrow">BPPK PUSDIKLAT Keuangan Publik</div>
+    <h1>Laporan CoP Lesson Learned<br/><em>&amp; Rekomendasi Kebijakan</em></h1>
+    <p>Upload rekaman rapat CoP → sistem mendeteksi &amp; mengenali pembicara → laporan resmi format Kemenkeu otomatis.</p>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="card">
+    <div class="card-title">🎙️ Upload Rekaman Rapat
+      <span id="adminToggleWrap" style="display:none;float:right">
+        <label style="font-size:.75rem;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:.4rem;font-weight:400">
+          <input type="checkbox" id="adminModeCheck" onchange="toggleAdminMode(this.checked)" style="cursor:pointer"/>
+          Mode Admin (File Lokal)
+        </label>
+      </span>
+    </div>
+
+    <!-- MODE NORMAL: Upload -->
+    <div id="modeUpload">
+      <div class="upload-zone" id="dropZone">
+        <input type="file" id="audioFile" accept=".mp3,.wav,.mp4,.m4a,.ogg,.flac"/>
+        <div class="upload-icon">📂</div>
+        <h3>Drag &amp; drop atau klik untuk pilih file</h3>
+        <p>MP3 · WAV · MP4 · M4A · OGG · FLAC</p>
+      </div>
+      <div class="file-pill hidden" id="filePill">
+        <span class="fi">🎵</span>
+        <div class="fn"><b id="fileName">—</b><small id="fileSize">—</small></div>
+        <button onclick="clearFile()">✕</button>
+      </div>
+    </div>
+
+    <!-- MODE ADMIN: Path Lokal -->
+    <div id="modeLocal" style="display:none">
+      <div style="background:var(--surf2);border-radius:12px;padding:1rem;border:1px dashed var(--accent)">
+        <div style="font-size:.8rem;color:var(--accent);font-weight:600;margin-bottom:.5rem">⚡ Mode Admin — File Lokal (Tanpa Upload)</div>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.7rem">Masukkan path lengkap file audio/video di laptop ini. Proses lebih cepat karena tidak perlu upload.</div>
+        <input type="text" id="localFilePath"
+          placeholder="Contoh: C:\Users\Rafiif\Downloads\NotulaAI\bintal_bagian1.mp4"
+          style="width:100%;background:var(--surf3);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;color:var(--text);font-size:.85rem;box-sizing:border-box"
+          oninput="checkLocalPath(this.value)"/>
+        <div id="localPathStatus" style="font-size:.75rem;margin-top:.4rem;color:var(--muted)">Masukkan path file di atas</div>
+        <div style="margin-top:.7rem;font-size:.72rem;color:var(--muted)">
+          💡 Tips: Drag file ke PowerShell untuk mendapatkan path otomatis, lalu copy paste ke sini.
+        </div>
+      </div>
+    </div>
+
+    <div class="error-box" id="errBox"><span>⚠️</span><span id="errTxt"></span></div>
+  </div>
+
+  <!-- METADATA LAPORAN CoP -->
+  <div class="card">
+    <div class="card-title">📋 Informasi Laporan CoP</div>
+    <div class="grid2">
+      <div class="field full"><label>Judul CoP / Perihal *</label>
+        <input id="perihal" type="text" placeholder="Contoh: LESSON LEARNED COMMUNITY OF PRACTICE PENILAIAN BMD" value="LESSON LEARNED COMMUNITY OF PRACTICE PENILAIAN BMD"/></div>
+      <div class="field full"><label>Judul Spesifik CoP (untuk header laporan)</label>
+        <input id="judul_cop" type="text" placeholder="Contoh: Problematika Penilaian BMD di Daerah Terpencil"/></div>
+      <div class="field full"><label>Isu / Masalah yang Dibahas</label>
+        <textarea id="isu_masalah" rows="2" placeholder="Contoh: Kendala penilaian BMD di daerah 3T terkait aksesibilitas dan minimnya SDM penilai"></textarea></div>
+      <div class="field"><label>Nomor SK / Dasar SK</label>
+        <input id="nomor_sk" type="text" placeholder="Contoh: SK-123/PP.4/2025"/></div>
+      <div class="field"><label>Dasar Hukum</label>
+        <input id="dasar" type="text" placeholder="Contoh: Peraturan Menteri Keuangan No. ..."/></div>
+    </div>
+    <div class="slabel" style="margin-top:.8rem">Waktu &amp; Tempat</div>
+    <div class="grid2">
+      <div class="field"><label>Hari</label>
+        <select id="hari">
+          <option value="">— Pilih Hari —</option>
+          <option>Senin</option><option>Selasa</option><option>Rabu</option>
+          <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+        </select></div>
+      <div class="field"><label>Tanggal</label>
+        <input id="tanggal" type="date"/></div>
+      <div class="field"><label>Jam Mulai</label>
+        <input id="jam" type="time" placeholder="09:00"/></div>
+      <div class="field"><label>Tempat</label>
+        <input id="tempat" type="text" placeholder="Contoh: Aula Gedung PUSDIKLAT KP Jakarta"/></div>
+      <div class="field full"><label>Agenda / Topik Rapat</label>
+        <textarea id="agenda" rows="2" placeholder="Contoh: Diskusi dan berbagi pengalaman terkait permasalahan penilaian BMD"></textarea></div>
+    </div>
+  </div>
+
+  <!-- DAFTAR ISI -->
+  <div class="card">
+    <div class="card-title">📑 Daftar Isi Laporan CoP</div>
+    <p class="peserta-hint">Isi judul bab dan nomor halaman. Klik <strong>+ Sub-bab</strong> untuk menambah sub-bab di bawah bab terkait, atau <strong>+ Tambah Bab</strong> untuk menambah bab baru.</p>
+    <div id="daftarIsiContainer"></div>
+    <div class="slabel" style="margin-top:1.3rem">Tanda Tangan</div>
+    <div class="grid2">
+      <div class="field full"><label>Jabatan Penandatangan (Mengetahui)</label>
+        <input id="jabatan_pejabat" type="text" value="Kepala Bidang Program dan Manajemen Pengetahuan"/>
+      </div>
+      <div class="field"><label>Nama Pejabat (Mengetahui)</label><input id="pejabat" type="text" placeholder="Nama lengkap pejabat"/></div>
+      <div class="field"><label>Nama Notulis</label><input id="notulis" type="text" placeholder="Nama notulis"/></div>
+    </div>
+  </div>
+
+  <!-- TOMBOL PROSES -->
+  <button class="btn-main" id="btnProses" onclick="startProcess()" disabled>
+    <span>🚀</span> Proses &amp; Generate Laporan CoP
+  </button>
+
+  <!-- PROGRESS -->
+  <div class="card hidden" id="cardProgress" style="margin-top:1.2rem">
+    <div class="card-title">⚙️ Sedang Diproses</div>
+    <div class="steps">
+      <div class="step" id="s1"><div class="step-ic">📤</div>
+        <div class="step-txt"><div class="st">Upload Audio</div><div class="sd" id="sd1">Mengirim file ke server</div></div></div>
+      <div id="uploadProgressWrap" style="display:none;padding:0 .95rem .65rem;margin-top:-.4rem">
+        <div style="background:var(--surf2);border-radius:99px;height:6px;overflow:hidden">
+          <div id="uploadProgressBar" style="height:100%;width:0%;background:var(--accent);transition:width .3s;border-radius:99px"></div>
+        </div>
+        <div id="uploadProgressText" style="font-size:.7rem;color:var(--muted);margin-top:.3rem">0%</div>
+      </div>
+      <div class="step" id="s2"><div class="step-ic">🎙️</div>
+        <div class="step-txt"><div class="st">Transkripsi (Whisper)</div><div class="sd" id="sd2">Mengubah audio menjadi teks Bahasa Indonesia</div></div></div>
+      <div class="step" id="s3"><div class="step-ic">👤</div>
+        <div class="step-txt"><div class="st">Identifikasi Pembicara</div><div class="sd" id="sd3">Mencocokkan suara dengan profil terdaftar</div></div></div>
+      <div class="step" id="s4"><div class="step-ic">📄</div>
+        <div class="step-txt"><div class="st">Generate Laporan CoP</div><div class="sd" id="sd4">Membuat file Word &amp; PDF format resmi Kemenkeu</div></div></div>
+    </div>
+  </div>
+
+  <!-- HASIL -->
+  <div class="card hidden" id="cardResult" style="margin-top:1.2rem">
+    <div class="card-title">✅ Laporan CoP Berhasil Dibuat</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-v" id="stSpk">—</div><div class="stat-l">Pembicara</div></div>
+      <div class="stat"><div class="stat-v" id="stSeg">—</div><div class="stat-l">Segmen</div></div>
+      <div class="stat"><div class="stat-v" id="stDur">—</div><div class="stat-l">Durasi</div></div>
+    </div>
+    <div class="preview" id="preview"></div>
+    <!-- Kesimpulan AI -->
+    <div id="kesimpulanBox" style="display:none;margin:.9rem 0 0">
+      <div class="kesimpulan-box">
+        <div class="card-title" style="font-size:.85rem;margin-bottom:.6rem">
+          🤖 Rekomendasi Kebijakan <span class="ai-badge">✨ Claude AI</span>
+        </div>
+        <div class="kesimpulan-content" id="kesimpulanContent"></div>
+      </div>
+    </div>
+    <div class="dl-grid">
+      <button class="btn-dl btn-docx" onclick="dlFile('docx')">📝 Download Word (.docx)</button>
+      <button class="btn-dl btn-pdf" id="btnPdf" onclick="dlFile('pdf')">📄 Download PDF</button>
+    </div>
+    <button class="btn-reset" onclick="resetAll()">↩ Proses Rekaman Baru</button>
+  </div>
+
+</div><!-- end pgNotula -->
+
+
+<!-- ══════════════════ PAGE: DAFTAR SUARA ══════════════════ -->
+<div class="page" id="pgEnroll">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Voice Enrollment</div>
+    <h1>Daftar <em>Profil Suara</em></h1>
+    <p>Rekam atau upload sampel suara setiap pegawai agar sistem bisa mengenali nama mereka otomatis saat rapat diproses.</p>
+  </div>
+
+  <!-- TIPS -->
+  <div class="enroll-tip">
+    💡 <strong>Tips untuk hasil terbaik:</strong><br/>
+    Upload rekaman suara bersih <strong>5–30 detik</strong> tanpa noise dan tanpa suara lain.
+    Idealnya rekam orang berbicara kalimat normal, bukan kata tunggal.<br/>
+    Sistem akan otomatis mencocokkan suara di rekaman rapat dengan profil yang terdaftar di sini.
+  </div>
+
+  <!-- FORM ENROLL -->
+  <div class="card">
+    <div class="card-title">➕ Tambah Profil Suara Baru</div>
+    <div class="grid2">
+      <div class="field"><label>Nama Lengkap *</label><input id="eNama" type="text" placeholder="Contoh: Budi Santoso"/></div>
+      <div class="field"><label>Jabatan</label><input id="eJabatan" type="text" placeholder="Contoh: Analis Kebijakan Ahli Muda"/></div>
+      <div class="field full"><label>Instansi / Unit Kerja</label>
+        <input id="eInstansi" type="text" value="BPPK PUSDIKLAT Keuangan Publik"/>
+      </div>
+    </div>
+    <div class="slabel">Sampel Suara</div>
+    <div class="upload-zone" id="enrollDrop">
+      <input type="file" id="enrollFile" accept=".mp3,.wav,.m4a,.ogg,.flac,.mp4"/>
+      <div class="upload-icon">🎤</div>
+      <h3>Upload rekaman suara</h3>
+      <p>MP3 · WAV · M4A · OGG · FLAC · MP4 &nbsp;|&nbsp; Minimal 5 detik</p>
+    </div>
+    <div class="file-pill hidden" id="enrollPill">
+      <span class="fi">🎵</span>
+      <div class="fn"><b id="enrollFileName">—</b><small id="enrollFileSize">—</small></div>
+      <button onclick="clearEnrollFile()">✕</button>
+    </div>
+    <div class="error-box" id="enrollErrBox"><span>⚠️</span><span id="enrollErrTxt"></span></div>
+    <div class="success-box" id="enrollOkBox"><span>✅</span><span id="enrollOkTxt"></span></div>
+    <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.8rem">
+      <button class="btn-verify" id="btnVerify" onclick="doVerify()" disabled>
+        <span>🔍</span> Verifikasi Kualitas Suara Dulu
+      </button>
+      <div id="verifyResult"></div>
+      <button class="btn-main btn-green" id="btnEnroll" onclick="doEnroll()" style="display:none">
+        <span>💾</span> Simpan Profil Suara
+      </button>
+    </div>
+  </div>
+
+  <!-- DAFTAR PROFIL -->
+  <div class="card">
+    <div class="card-title">👥 Profil Suara Terdaftar</div>
+    <div id="profileList"><div class="no-profiles">Memuat profil...</div></div>
+  </div>
+
+</div><!-- end pgEnroll -->
+
+
+<!-- ══════════════════ PAGE: DARI TRANSKRIP ══════════════════ -->
+<div class="page" id="pgTranscript">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Text to Laporan CoP</div>
+    <h1>Dari <em>Transkrip Teks</em></h1>
+    <p>Upload transkrip dari Microsoft Teams, Zoom, atau format teks lainnya → sistem otomatis format menjadi Laporan CoP Lesson Learned &amp; Rekomendasi Kebijakan format resmi Kemenkeu.</p>
+  </div>
+
+  <div class="enroll-tip">
+    📋 <strong>Format yang didukung:</strong><br/>
+    <strong>VTT</strong> — export langsung dari Microsoft Teams atau Zoom (direkomendasikan)<br/>
+    <strong>TXT</strong> — teks dengan format: <code>[00:01:23] Nama: teks</code> atau <code>Nama: teks</code><br/>
+    <strong>DOCX</strong> — dokumen Word dengan format serupa TXT di atas
+  </div>
+
+  <!-- UPLOAD TRANSKRIP -->
+  <div class="card">
+    <div class="card-title">📄 Upload File Transkrip</div>
+    <div class="upload-zone" id="trDrop">
+      <input type="file" id="trFile" accept=".txt,.docx,.vtt"/>
+      <div class="upload-icon">📋</div>
+      <h3>Drag &amp; drop atau klik untuk pilih file</h3>
+      <p>VTT (Teams/Zoom) &nbsp;·&nbsp; TXT &nbsp;·&nbsp; DOCX</p>
+    </div>
+    <div class="file-pill hidden" id="trPill">
+      <span class="fi">📄</span>
+      <div class="fn"><b id="trFileName">—</b><small id="trFileSize">—</small></div>
+      <button onclick="clearTrFile()">✕</button>
+    </div>
+    <div class="error-box" id="trErrBox"><span>⚠️</span><span id="trErrTxt"></span></div>
+  </div>
+
+  <!-- METADATA LAPORAN CoP (Transkrip) -->
+  <div class="card">
+    <div class="card-title">📋 Informasi Laporan CoP</div>
+    <div class="grid2">
+      <div class="field full"><label>Judul CoP / Perihal *</label>
+        <input id="tr_perihal" type="text" placeholder="Contoh: LESSON LEARNED COMMUNITY OF PRACTICE PENILAIAN BMD" value="LESSON LEARNED COMMUNITY OF PRACTICE PENILAIAN BMD"/></div>
+      <div class="field full"><label>Judul Spesifik CoP (untuk header laporan)</label>
+        <input id="tr_judul_cop" type="text" placeholder="Contoh: Problematika Penilaian BMD di Daerah Terpencil"/></div>
+      <div class="field full"><label>Isu / Masalah yang Dibahas</label>
+        <textarea id="tr_isu_masalah" rows="2" placeholder="Contoh: Kendala penilaian BMD di daerah 3T terkait aksesibilitas dan minimnya SDM penilai"></textarea></div>
+      <div class="field"><label>Nomor SK / Dasar SK</label>
+        <input id="tr_nomor_sk" type="text" placeholder="Contoh: SK-123/PP.4/2025"/></div>
+      <div class="field"><label>Dasar Hukum</label>
+        <input id="tr_dasar" type="text" placeholder="Contoh: Peraturan Menteri Keuangan No. ..."/></div>
+    </div>
+    <div class="slabel" style="margin-top:.8rem">Waktu &amp; Tempat</div>
+    <div class="grid2">
+      <div class="field"><label>Hari</label>
+        <select id="tr_hari">
+          <option value="">— Pilih Hari —</option>
+          <option>Senin</option><option>Selasa</option><option>Rabu</option>
+          <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+        </select></div>
+      <div class="field"><label>Tanggal</label>
+        <input id="tr_tanggal" type="date"/></div>
+      <div class="field"><label>Jam Mulai</label>
+        <input id="tr_jam" type="time" placeholder="09:00"/></div>
+      <div class="field"><label>Tempat</label>
+        <input id="tr_tempat" type="text" placeholder="Contoh: Aula Gedung PUSDIKLAT KP Jakarta"/></div>
+      <div class="field full"><label>Agenda / Topik Rapat</label>
+        <textarea id="tr_agenda" rows="2" placeholder="Contoh: Diskusi dan berbagi pengalaman terkait permasalahan penilaian BMD"></textarea></div>
+    </div>
+  </div>
+
+  <!-- DAFTAR ISI (Transkrip) -->
+  <div class="card">
+    <div class="card-title">📑 Daftar Isi Laporan CoP</div>
+    <p class="peserta-hint">Isi judul bab dan nomor halaman. Klik <strong>+ Sub-bab</strong> untuk menambah sub-bab di bawah bab terkait, atau <strong>+ Tambah Bab</strong> untuk menambah bab baru.</p>
+    <div id="tr_daftarIsiContainer"></div>
+    <div class="slabel" style="margin-top:1.3rem">Tanda Tangan</div>
+    <div class="grid2">
+      <div class="field full"><label>Jabatan Penandatangan (Mengetahui)</label>
+        <input id="tr_jabatan_pejabat" type="text" value="Kepala Bidang Program dan Manajemen Pengetahuan"/></div>
+      <div class="field"><label>Nama Pejabat (Mengetahui)</label>
+        <input id="tr_pejabat" type="text" placeholder="Nama lengkap pejabat"/></div>
+      <div class="field"><label>Nama Notulis</label>
+        <input id="tr_notulis" type="text" placeholder="Nama notulis"/></div>
+    </div>
+  </div>
+
+  <button class="btn-main" id="btnTrProses" onclick="startTranscript()" disabled>
+    <span>📝</span> Format &amp; Generate Laporan CoP
+  </button>
+
+  <!-- PROGRESS -->
+  <div class="card hidden" id="trCardProgress" style="margin-top:1.2rem">
+    <div class="card-title">⚙️ Sedang Diproses</div>
+    <div class="steps">
+      <div class="step" id="tr_s1"><div class="step-ic">📤</div>
+        <div class="step-txt"><div class="st">Upload Transkrip</div><div class="sd">Mengirim file ke server</div></div></div>
+      <div class="step" id="tr_s2"><div class="step-ic">🔍</div>
+        <div class="step-txt"><div class="st">Parsing Transkrip</div><div class="sd">Membaca format dan mengekstrak pembicara</div></div></div>
+      <div class="step" id="tr_s3"><div class="step-ic">📄</div>
+        <div class="step-txt"><div class="st">Generate Laporan CoP</div><div class="sd">Membuat file Word &amp; PDF format resmi Kemenkeu</div></div></div>
+    </div>
+  </div>
+
+  <!-- HASIL -->
+  <div class="card hidden" id="trCardResult" style="margin-top:1.2rem">
+    <div class="card-title">✅ Laporan CoP Berhasil Dibuat</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-v" id="trStSpk">—</div><div class="stat-l">Pembicara</div></div>
+      <div class="stat"><div class="stat-v" id="trStSeg">—</div><div class="stat-l">Segmen</div></div>
+      <div class="stat"><div class="stat-v" id="trStDur">—</div><div class="stat-l">Durasi</div></div>
+    </div>
+    <div class="preview" id="trPreview"></div>
+    <!-- Kesimpulan AI -->
+    <div id="trKesimpulanBox" style="display:none;margin:.9rem 0 0">
+      <div class="kesimpulan-box">
+        <div class="card-title" style="font-size:.85rem;margin-bottom:.6rem">
+          🤖 Rekomendasi Kebijakan <span class="ai-badge">✨ Claude AI</span>
+        </div>
+        <div class="kesimpulan-content" id="trKesimpulanContent"></div>
+      </div>
+    </div>
+    <div class="dl-grid">
+      <button class="btn-dl btn-docx" onclick="dlTrFile('docx')">📝 Download Word (.docx)</button>
+      <button class="btn-dl btn-pdf" id="trBtnPdf" onclick="dlTrFile('pdf')">📄 Download PDF</button>
+    </div>
+    <button class="btn-reset" onclick="resetTr()">↩ Proses Transkrip Baru</button>
+  </div>
+
+</div><!-- end pgTranscript -->
+
+</main>
+
+<script>
+const API = window.location.origin.startsWith('file') 
+  ? 'http://localhost:8000' 
+  : window.location.origin;
+let selFile = null, currentId = null, enrollSelFile = null;
+let trSelFile = null, trCurrentId = null;
+
+// ── PAGE NAV ─────────────────────────────────────────────────────────────────
+function showPage(id, tabEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  tabEl.classList.add('active');
+  if (id === 'pgEnroll') loadProfiles();
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+let isAdminMode = false;
+let localFilePath = '';
+
+function initApp() {
+  const now  = new Date();
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  // Set tanggal/hari kalau elemen ada
+  const elTgl = document.getElementById('tanggal');
+  const elHari = document.getElementById('hari');
+  if (elTgl)  elTgl.value  = now.toISOString().split('T')[0];
+  if (elHari) elHari.value = days[now.getDay()];
+
+  // Render daftar isi tabel
+  renderDaftarIsi('daftarIsiContainer', _getState('daftarIsiContainer'));
+  renderDaftarIsi('tr_daftarIsiContainer', _getState('tr_daftarIsiContainer'));
+
+  // Tampilkan toggle admin hanya di localhost
+  const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  const adminWrap = document.getElementById('adminToggleWrap');
+  if (isLocal && adminWrap) adminWrap.style.display = 'inline-block';
+}
+
+function toggleAdminMode(enabled) {
+  isAdminMode = enabled;
+  document.getElementById('modeUpload').style.display = enabled ? 'none' : 'block';
+  document.getElementById('modeLocal').style.display  = enabled ? 'block' : 'none';
+  // Update tombol proses
+  const hasFile = enabled ? localFilePath.trim().length > 0 : selFile !== null;
+  document.getElementById('btnProses').disabled = !hasFile;
+  if (!enabled) { localFilePath = ''; }
+}
+
+function checkLocalPath(val) {
+  localFilePath = val.trim();
+  const statusEl = document.getElementById('localPathStatus');
+  const btnEl = document.getElementById('btnProses');
+  if (!localFilePath) {
+    statusEl.textContent = 'Masukkan path file di atas';
+    statusEl.style.color = 'var(--muted)';
+    btnEl.disabled = true;
+    return;
+  }
+  // Validasi ekstensi
+  const ext = localFilePath.split('.').pop().toLowerCase();
+  const valid = ['mp3','wav','mp4','m4a','ogg','flac'].includes(ext);
+  if (!valid) {
+    statusEl.textContent = '⚠️ Format tidak didukung. Gunakan MP3/WAV/MP4/M4A/OGG/FLAC';
+    statusEl.style.color = 'var(--red, #f87171)';
+    btnEl.disabled = true;
+    return;
+  }
+  statusEl.textContent = '✅ Path valid — siap diproses (tanpa upload)';
+  statusEl.style.color = 'var(--green, #6EE7B7)';
+  btnEl.disabled = false;
+}
+
+// ── DAFTAR ISI — SISTEM BAB HIERARKI ─────────────────────────────────────────
+const BAB_DEFAULT = [
+  { judul: 'Pendahuluan', hal: '2', sub: [
+      { judul: 'Executive Summary',     hal: '2' },
+      { judul: 'Pernyataan Isu/Masalah', hal: '2' },
+      { judul: 'Latar Belakang',         hal: '3' },
+      { judul: 'Maksud dan Tujuan',      hal: '3' },
+    ]
+  },
+  { judul: 'Kegiatan yang Dilaksanakan', hal: '4', sub: [] },
+  { judul: 'Hasil dan Pembahasan', hal: '5', sub: [
+      { judul: 'Pre-existing Policies', hal: '5' },
+      { judul: 'Poin Diskusi',          hal: '5' },
+    ]
+  },
+  { judul: 'Simpulan dan Rekomendasi', hal: '7', sub: [
+      { judul: 'Kesimpulan',   hal: '7' },
+      { judul: 'Rekomendasi',  hal: '7' },
+    ]
+  },
+];
+
+function renderDaftarIsi(containerId, babs) {
+  const c = document.getElementById(containerId);
+  const isTr = containerId === 'tr_daftarIsiContainer';
+
+  // Hitung total sub-bab
+  const totalSub = babs.reduce((a, b) => a + b.sub.length, 0);
+
+  // Bangun baris tabel
+  let rows = '';
+  babs.forEach((bab, bi) => {
+    const babNum = bi + 1;
+    rows += `
+    <tr class="tr-bab" data-bab="${bi}">
+      <td class="td-no">${babNum}</td>
+      <td class="td-bab-judul"><input type="text" value="${escHtml(bab.judul)}" placeholder="Judul Bab ${babNum}…"/></td>
+      <td class="td-hal"><input type="text" value="${escHtml(bab.hal)}" placeholder="—"/></td>
+      <td class="td-act">
+        <button class="btn-sub-tbl" onclick="tambahSubBab('${containerId}',${bi})">＋ Sub-bab</button>
+        <button class="btn-del-row" title="Hapus bab" onclick="hapusBab('${containerId}',${bi})">✕</button>
+      </td>
+    </tr>`;
+    bab.sub.forEach((s, si) => {
+      rows += `
+    <tr class="tr-sub" data-bab="${bi}" data-sub="${si}">
+      <td class="td-no no-sub">${babNum}.${si+1}</td>
+      <td class="td-sub-judul"><input type="text" value="${escHtml(s.judul)}" placeholder="Sub-bab ${babNum}.${si+1}…"/></td>
+      <td class="td-hal"><input type="text" value="${escHtml(s.hal)}" placeholder="—"/></td>
+      <td class="td-act">
+        <button class="btn-del-row" title="Hapus sub-bab" onclick="hapusSubBab('${containerId}',${bi},${si})">✕</button>
+      </td>
+    </tr>`;
+    });
+  });
+
+  c.innerHTML = `
+    <table class="di-table">
+      <thead>
+        <tr>
+          <th class="th-no">No.</th>
+          <th>Judul Bab / Sub-bab</th>
+          <th class="th-hal">Hal.</th>
+          <th class="th-act">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="${containerId}_tbody">${rows}</tbody>
+    </table>
+    <div class="di-footer-row">
+      <span class="di-count">📚 ${babs.length} bab &nbsp;·&nbsp; ${totalSub} sub-bab</span>
+      <button class="btn-add-bab-tbl" onclick="${isTr ? 'trTambahBab' : 'tambahBab'}()">＋ Tambah Bab</button>
+    </div>`;
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function getBabData(containerId) {
+  const c = document.getElementById(containerId);
+  const babs = [];
+  let curBab = null;
+  c.querySelectorAll('tr.tr-bab, tr.tr-sub').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    if (row.classList.contains('tr-bab')) {
+      curBab = { judul: inputs[0].value.trim(), hal: inputs[1].value.trim(), sub: [] };
+      babs.push(curBab);
+    } else if (row.classList.contains('tr-sub') && curBab) {
+      const sj = inputs[0].value.trim();
+      const sh = inputs[1].value.trim();
+      if (sj) curBab.sub.push({ judul: sj, hal: sh });
+    }
+  });
+  return babs;
+}
+
+// Per-container state
+const _babState = {};
+function _getState(cid) {
+  if (!_babState[cid]) _babState[cid] = JSON.parse(JSON.stringify(BAB_DEFAULT));
+  return _babState[cid];
+}
+function _syncFromDOM(cid) {
+  _babState[cid] = getBabData(cid);
+}
+
+function tambahBab() {
+  _syncFromDOM('daftarIsiContainer');
+  _babState['daftarIsiContainer'].push({ judul: '', hal: '', sub: [] });
+  renderDaftarIsi('daftarIsiContainer', _babState['daftarIsiContainer']);
+}
+function tambahSubBab(cid, bi) {
+  _syncFromDOM(cid);
+  _babState[cid][bi].sub.push({ judul: '', hal: '' });
+  renderDaftarIsi(cid, _babState[cid]);
+}
+function hapusBab(cid, bi) {
+  _syncFromDOM(cid);
+  if (_babState[cid].length <= 1) return;
+  _babState[cid].splice(bi, 1);
+  renderDaftarIsi(cid, _babState[cid]);
+}
+function hapusSubBab(cid, bi, si) {
+  _syncFromDOM(cid);
+  _babState[cid][bi].sub.splice(si, 1);
+  renderDaftarIsi(cid, _babState[cid]);
+}
+
+function trTambahBab() {
+  _syncFromDOM('tr_daftarIsiContainer');
+  _babState['tr_daftarIsiContainer'].push({ judul: '', hal: '', sub: [] });
+  renderDaftarIsi('tr_daftarIsiContainer', _babState['tr_daftarIsiContainer']);
+}
+
+// Legacy helpers (kept for getPesertaData compatibility)
+function addPeserta() { tambahBab(); }
+function delPeserta()  {}
+function getPesertaData() {
+  return getBabData('daftarIsiContainer').flatMap((b, bi) => {
+    const rows = [{ nama: `${bi+1}. ${b.judul}`, jabatan: b.hal, instansi: '-' }];
+    b.sub.forEach((s, si) => rows.push({ nama: `${bi+1}.${si+1} ${s.judul}`, jabatan: s.hal, instansi: '-' }));
+    return rows;
+  });
+}
+function addTrPeserta() { trTambahBab(); }
+function delTrPeserta() {}
+function getTrPesertaData() {
+  return getBabData('tr_daftarIsiContainer').flatMap((b, bi) => {
+    const rows = [{ nama: `${bi+1}. ${b.judul}`, jabatan: b.hal, instansi: '-' }];
+    b.sub.forEach((s, si) => rows.push({ nama: `${bi+1}.${si+1} ${s.judul}`, jabatan: s.hal, instansi: '-' }));
+    return rows;
+  });
+}
+// (delPeserta replaced by hapusBab/hapusSubBab above)
+// (getPesertaData defined above in daftar isi section)
+
+// ── FILE (NOTULA) ─────────────────────────────────────────────────────────────
+document.getElementById('audioFile').addEventListener('change', e => pick(e.target.files[0]));
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-active'); });
+dz.addEventListener('dragleave', ()  => dz.classList.remove('drag-active'));
+dz.addEventListener('drop',      e  => { e.preventDefault(); dz.classList.remove('drag-active'); pick(e.dataTransfer.files[0]); });
+
+function pick(file) {
+  if (!file) return;
+  const ok  = ['mp3','wav','mp4','m4a','ogg','flac'];
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!ok.includes(ext)) { showErr('Format tidak didukung. Gunakan: MP3, WAV, MP4, M4A, OGG, atau FLAC.'); return; }
+  selFile = file;
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileSize').textContent = fmtSz(file.size);
+  document.getElementById('filePill').classList.remove('hidden');
+  document.getElementById('btnProses').disabled = false;
+  hideErr();
+}
+function clearFile() {
+  selFile = null;
+  document.getElementById('audioFile').value = '';
+  document.getElementById('filePill').classList.add('hidden');
+  document.getElementById('btnProses').disabled = true;
+}
+
+// ── FILE (ENROLL) ─────────────────────────────────────────────────────────────
+document.getElementById('enrollFile').addEventListener('change', e => pickEnroll(e.target.files[0]));
+const edz = document.getElementById('enrollDrop');
+edz.addEventListener('dragover',  e => { e.preventDefault(); edz.classList.add('drag-active'); });
+edz.addEventListener('dragleave', ()  => edz.classList.remove('drag-active'));
+edz.addEventListener('drop',      e  => { e.preventDefault(); edz.classList.remove('drag-active'); pickEnroll(e.dataTransfer.files[0]); });
+
+function pickEnroll(file) {
+  if (!file) return;
+  enrollSelFile = file;
+  document.getElementById('enrollFileName').textContent = file.name;
+  document.getElementById('enrollFileSize').textContent = fmtSz(file.size);
+  document.getElementById('enrollPill').classList.remove('hidden');
+  hideEnrollMsg();
+  // Reset verify state
+  document.getElementById('btnVerify').disabled = false;
+  document.getElementById('btnEnroll').style.display = 'none';
+  document.getElementById('verifyResult').innerHTML = '';
+}
+function clearEnrollFile() {
+  enrollSelFile = null;
+  document.getElementById('enrollFile').value = '';
+  document.getElementById('enrollPill').classList.add('hidden');
+  document.getElementById('btnVerify').disabled = true;
+  document.getElementById('btnEnroll').style.display = 'none';
+  document.getElementById('verifyResult').innerHTML = '';
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function fmtSz(b) { return b < 1048576 ? (b/1024).toFixed(1)+' KB' : (b/1048576).toFixed(1)+' MB'; }
+function showErr(msg)  { document.getElementById('errTxt').textContent = msg; document.getElementById('errBox').classList.add('show'); }
+function hideErr()     { document.getElementById('errBox').classList.remove('show'); }
+function showEnrollErr(msg) { document.getElementById('enrollErrTxt').textContent = msg; document.getElementById('enrollErrBox').classList.add('show'); document.getElementById('enrollOkBox').classList.remove('show'); }
+function showEnrollOk(msg)  { document.getElementById('enrollOkTxt').textContent = msg; document.getElementById('enrollOkBox').classList.add('show'); document.getElementById('enrollErrBox').classList.remove('show'); }
+function hideEnrollMsg()    { document.getElementById('enrollErrBox').classList.remove('show'); document.getElementById('enrollOkBox').classList.remove('show'); }
+
+function setStep(n) {
+  for (let i=1; i<=4; i++) {
+    const el = document.getElementById('s'+i);
+    el.classList.remove('active','done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+  }
+}
+function toIndo(dateStr) {
+  const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const d = new Date(dateStr+'T00:00:00');
+  return d.getDate()+' '+bulan[d.getMonth()]+' '+d.getFullYear();
+}
+
+// ── ENROLL ────────────────────────────────────────────────────────────────────
+async function doVerify() {
+  if (!enrollSelFile) { showEnrollErr('Pilih file audio terlebih dahulu.'); return; }
+  const btn = document.getElementById('btnVerify');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Memverifikasi...';
+  document.getElementById('verifyResult').innerHTML = '';
+
+  const fd = new FormData();
+  fd.append('file', enrollSelFile);
+  try {
+    const res  = await fetch(API+'/profiles/verify', { method:'POST', body: fd });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.detail || 'Server error');
+    renderVerifyResult(json);
+  } catch(e) {
+    document.getElementById('verifyResult').innerHTML =
+      `<div class="verify-box verify-fail" style="margin-top:.8rem">
+        <div class="verify-header"><span style="font-size:1.5rem">❌</span>
+          <div><div class="verify-label" style="color:var(--red)">Verifikasi Gagal</div>
+          <div style="font-size:.8rem;color:var(--muted)">${e.message}</div></div></div></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>🔍</span> Verifikasi Ulang';
+  }
+}
+
+function renderVerifyResult(r) {
+  const passed = r.passed;
+  const score  = r.score;
+  const cls    = passed ? 'verify-pass' : (score >= 40 ? 'verify-warn' : 'verify-fail');
+  const icon   = passed ? '✅' : (score >= 40 ? '⚠️' : '❌');
+  const label  = passed ? 'SUARA LAYAK DIDAFTARKAN' : (score >= 40 ? 'SUARA PERLU DIPERBAIKI' : 'SUARA TIDAK LAYAK');
+  const clr    = passed ? 'var(--green)' : (score >= 40 ? 'var(--gold)' : 'var(--red)');
+  const scoreCls = passed ? 'pass' : (score >= 40 ? 'warn' : 'fail');
+
+  // Issues
+  const issuesHtml = r.issues.length ? r.issues.map(i =>
+    `<div class="issue-item ${i.level==='error'?'issue-error':'issue-warning'}">
+      <span>${i.level==='error'?'🔴':'🟡'}</span><span>${i.msg}</span></div>`
+  ).join('') : '<div class="issue-item" style="background:rgba(16,185,129,.1);color:#6EE7B7"><span>✅</span><span>Tidak ada masalah ditemukan</span></div>';
+
+  // Detail grid
+  const d = r.detail;
+  const detailHtml = `
+    <div class="verify-detail">
+      <div class="vd-item"><div class="vd-val">${d.durasi_detik}s</div><div class="vd-lbl">Durasi</div></div>
+      <div class="vd-item"><div class="vd-val">${d.volume_pct}%</div><div class="vd-lbl">Volume</div></div>
+      <div class="vd-item"><div class="vd-val">${d.word_count}</div><div class="vd-lbl">Kata Terdeteksi</div></div>
+      <div class="vd-item"><div class="vd-val">${d.snr}x</div><div class="vd-lbl">Rasio Signal</div></div>
+      <div class="vd-item"><div class="vd-val">${d.silence_ratio}%</div><div class="vd-lbl">Bagian Senyap</div></div>
+      <div class="vd-item"><div class="vd-val">${score}/100</div><div class="vd-lbl">Skor Total</div></div>
+    </div>`;
+
+  const transcriptHtml = r.transcript
+    ? `<div style="margin:.7rem 0 .3rem;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Hasil Transkripsi Singkat:</div>
+       <div class="verify-transcript">"${r.transcript}"</div>`
+    : '';
+
+  const enrollBtn = document.getElementById('btnEnroll');
+  if (passed) {
+    enrollBtn.style.display = 'flex';
+  } else {
+    enrollBtn.style.display = 'none';
+  }
+
+  document.getElementById('verifyResult').innerHTML = `
+    <div class="verify-box ${cls}" style="margin-top:.8rem">
+      <div class="verify-header">
+        <span style="font-size:1.8rem">${icon}</span>
+        <div>
+          <div class="verify-label" style="color:${clr}">${label}</div>
+          <div class="verify-score ${scoreCls}">${score}<span style="font-size:1rem;font-weight:400">/100</span></div>
+        </div>
+      </div>
+      <div class="verify-issues">${issuesHtml}</div>
+      ${transcriptHtml}
+      ${detailHtml}
+      ${!passed ? `<div style="margin-top:.8rem;padding:.7rem;background:rgba(255,255,255,.04);border-radius:8px;font-size:.8rem;color:var(--muted)">
+        💡 <strong style="color:var(--text)">Tips:</strong> Rekam ulang di ruangan sepi, bicara jelas dengan jarak 20-30cm dari mikrofon, durasi 10-30 detik.
+      </div>` : ''}
+    </div>`;
+}
+
+async function doEnroll() {
+  const nama = document.getElementById('eNama').value.trim();
+  if (!nama)          { showEnrollErr('Nama tidak boleh kosong.'); return; }
+  if (!enrollSelFile) { showEnrollErr('Pilih file audio sampel suara terlebih dahulu.'); return; }
+
+  const btn = document.getElementById('btnEnroll');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Menyimpan profil...';
+  hideEnrollMsg();
+
+  const fd = new FormData();
+  fd.append('file',     enrollSelFile);
+  fd.append('nama',     nama);
+  fd.append('jabatan',  document.getElementById('eJabatan').value.trim());
+  fd.append('instansi', document.getElementById('eInstansi').value.trim());
+
+  try {
+    const res = await fetch(API+'/profiles/enroll', { method:'POST', body: fd });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.detail || 'Server error');
+    showEnrollOk(`Profil suara "${nama}" berhasil disimpan! Sistem sekarang dapat mengenali suara ini.`);
+    // Reset form
+    document.getElementById('eNama').value = '';
+    document.getElementById('eJabatan').value = '';
+    clearEnrollFile();
+    loadProfiles();
+    document.getElementById('btnEnroll').style.display = 'none';
+    document.getElementById('verifyResult').innerHTML = '';
+  } catch(e) {
+    showEnrollErr('Gagal: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>💾</span> Simpan Profil Suara';
+  }
+}
+
+// ── LOAD PROFILES ─────────────────────────────────────────────────────────────
+async function loadProfiles() {
+  const el = document.getElementById('profileList');
+  el.innerHTML = '<div class="no-profiles">Memuat profil...</div>';
+  try {
+    const res = await fetch(API+'/profiles');
+    const json = await res.json();
+    const profiles = json.profiles || [];
+    if (profiles.length === 0) {
+      el.innerHTML = '<div class="no-profiles">🎤 Belum ada profil suara terdaftar.<br/>Tambahkan profil baru di atas.</div>';
+      return;
+    }
+    const initials = name => name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    el.innerHTML = `<div class="profile-grid">${profiles.map(p => `
+      <div class="profile-card" id="pc-${p.id}">
+        <button class="profile-del" onclick="delProfile('${p.id}','${p.nama}')" title="Hapus profil">🗑</button>
+        <div class="profile-avatar">${initials(p.nama)}</div>
+        <div class="profile-name">${p.nama}</div>
+        <div class="profile-meta">${p.jabatan||'—'}<br/>${p.instansi||'—'}</div>
+      </div>`).join('')}</div>`;
+  } catch(e) {
+    el.innerHTML = '<div class="no-profiles">⚠️ Gagal memuat profil. Pastikan server berjalan.</div>';
+  }
+}
+
+async function delProfile(id, nama) {
+  if (!confirm(`Hapus profil suara "${nama}"?`)) return;
+  try {
+    const res = await fetch(API+'/profiles/'+id, { method:'DELETE' });
+    if (!res.ok) throw new Error('Gagal menghapus');
+    document.getElementById('pc-'+id)?.remove();
+    loadProfiles();
+  } catch(e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+// ── PROSES ────────────────────────────────────────────────────────────────────
+function setStepDesc(n, msg) {
+  const el = document.getElementById('sd'+n);
+  if (el) el.textContent = msg;
+}
+
+function startProcess() {
+  if (isAdminMode) { startProcessLocal(); return; }
+  if (!selFile) return;
+  document.getElementById('cardProgress').classList.remove('hidden');
+  document.getElementById('cardResult').classList.add('hidden');
+  document.getElementById('btnProses').disabled = true;
+  document.getElementById('btnProses').innerHTML = '<div class="spinner"></div> Memproses...';
+  hideErr(); setStep(1);
+  setStepDesc(1, 'Mengirim file ke server...');
+
+  const fd = new FormData();
+  fd.append('file',            selFile);
+  fd.append('perihal',         document.getElementById('perihal').value || 'NOTULA RAPAT');
+  fd.append('dasar',           document.getElementById('dasar').value   || '-');
+  fd.append('hari',            document.getElementById('hari').value);
+  fd.append('tanggal',         toIndo(document.getElementById('tanggal').value));
+  fd.append('jam',             document.getElementById('jam').value);
+  fd.append('tempat',          document.getElementById('tempat').value);
+  fd.append('agenda',          document.getElementById('agenda').value);
+  fd.append('jabatan_pejabat', document.getElementById('jabatan_pejabat').value);
+  fd.append('pejabat',         document.getElementById('pejabat').value  || '................................');
+  fd.append('notulis',         document.getElementById('notulis').value  || '................................');
+  fd.append('peserta',         JSON.stringify(getPesertaData()));
+  fd.append('judul_cop',       document.getElementById('judul_cop').value   || '');
+  fd.append('isu_masalah',     document.getElementById('isu_masalah').value || '');
+  fd.append('nomor_sk',        document.getElementById('nomor_sk').value    || '');
+
+  // Tampilkan progress bar upload
+  document.getElementById('uploadProgressWrap').style.display = 'block';
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', API+'/transcribe');
+  xhr.timeout = 3 * 60 * 60 * 1000; // 3 jam untuk file besar
+
+  // ── Upload progress (step 1) ──
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) {
+      const pct = Math.round(e.loaded / e.total * 100);
+      document.getElementById('uploadProgressBar').style.width = pct + '%';
+      document.getElementById('uploadProgressText').textContent =
+        pct + '% — ' + (e.loaded/1048576).toFixed(1) + ' MB / ' + (e.total/1048576).toFixed(1) + ' MB';
+      setStepDesc(1, `Mengupload: ${pct}% (${(e.loaded/1048576).toFixed(0)}/${(e.total/1048576).toFixed(0)} MB)`);
+    }
+  };
+
+  xhr.upload.onload = function() {
+    // Upload selesai → pindah ke step 2
+    document.getElementById('uploadProgressBar').style.width = '100%';
+    document.getElementById('uploadProgressText').textContent = '100% — Upload selesai, memulai transkripsi...';
+    setStepDesc(1, 'Upload selesai ✓');
+    setStep(2);
+    setStepDesc(2, 'Whisper sedang mentranskrip audio... (harap tunggu)');
+
+    // Estimasi waktu berdasarkan ukuran file (~25MB per menit audio)
+    const fileMB    = selFile.size / 1048576;
+    const estimasiMs = fileMB * 3000; // ~3 detik per MB
+    const menit = Math.round(fileMB / 25);
+    if (menit > 1) setStepDesc(2, `Whisper sedang mentranskrip... estimasi ~${menit} menit`);
+
+    // Simulasi step 3 & 4
+    setTimeout(() => {
+      if (document.getElementById('s2').classList.contains('active')) {
+        setStep(3); setStepDesc(3, 'Mendeteksi dan mengidentifikasi pembicara...');
+      }
+    }, estimasiMs * 0.75);
+    setTimeout(() => {
+      if (document.getElementById('s3').classList.contains('active') || document.getElementById('s2').classList.contains('active')) {
+        setStep(4); setStepDesc(4, 'Membuat laporan CoP Lesson Learned...');
+      }
+    }, estimasiMs * 0.95);
+  };
+  xhr.onload = function() {
+    document.getElementById('uploadProgressWrap').style.display = 'none';
+    if (xhr.status === 200) {
+      try {
+        const json = JSON.parse(xhr.responseText);
+        setStep(5);
+        currentId = json.file_id;
+        showResult(json.data, json.has_pdf);
+      } catch(e) {
+        resetBtn(); showErr('Error parsing response: ' + e.message);
+      }
+    } else {
+      try {
+        const err = JSON.parse(xhr.responseText);
+        resetBtn(); showErr('Error: ' + (err.detail || 'Server error'));
+      } catch {
+        resetBtn(); showErr('Error: ' + xhr.statusText);
+      }
+    }
+  };
+
+  xhr.onerror = function() {
+    document.getElementById('uploadProgressWrap').style.display = 'none';
+    resetBtn(); showErr('Koneksi ke server gagal. Pastikan server berjalan di port 8000.');
+  };
+
+  xhr.ontimeout = function() {
+    document.getElementById('uploadProgressWrap').style.display = 'none';
+    resetBtn(); showErr('Timeout — proses terlalu lama. Coba dengan file yang lebih kecil.');
+  };
+
+  xhr.send(fd);
+}
+
+function resetBtn() {
+  document.getElementById('btnProses').disabled = false;
+  document.getElementById('btnProses').innerHTML = '<span>🚀</span> Proses &amp; Generate Laporan CoP';
+}
+
+// ── MODE ADMIN: Proses File Lokal ─────────────────────────────────────────────
+async function startProcessLocal() {
+  if (!localFilePath) return;
+  document.getElementById('cardProgress').classList.remove('hidden');
+  document.getElementById('cardResult').classList.add('hidden');
+  document.getElementById('btnProses').disabled = true;
+  document.getElementById('btnProses').innerHTML = '<div class="spinner"></div> Memproses...';
+  hideErr();
+  setStep(1);
+  setStepDesc(1, '⚡ Mode Admin — membaca file lokal (tanpa upload)...');
+
+  // Langsung ke step 2 karena tidak ada upload
+  setTimeout(() => {
+    setStep(2);
+    setStepDesc(2, 'Whisper sedang mentranskrip audio...');
+  }, 500);
+
+  const fd = new FormData();
+  fd.append('local_path',       localFilePath);
+  fd.append('perihal',          document.getElementById('perihal').value || 'NOTULA RAPAT');
+  fd.append('dasar',            document.getElementById('dasar').value   || '-');
+  fd.append('hari',             document.getElementById('hari').value);
+  fd.append('tanggal',          toIndo(document.getElementById('tanggal').value));
+  fd.append('jam',              document.getElementById('jam').value);
+  fd.append('tempat',           document.getElementById('tempat').value);
+  fd.append('agenda',           document.getElementById('agenda').value);
+  fd.append('jabatan_pejabat',  document.getElementById('jabatan_pejabat').value);
+  fd.append('pejabat',          document.getElementById('pejabat').value  || '................................');
+  fd.append('notulis',          document.getElementById('notulis').value  || '................................');
+  fd.append('peserta',          JSON.stringify(getPesertaData()));
+  fd.append('judul_cop',        document.getElementById('judul_cop').value   || '');
+  fd.append('isu_masalah',      document.getElementById('isu_masalah').value || '');
+  fd.append('nomor_sk',         document.getElementById('nomor_sk').value    || '');
+
+  // Estimasi step 3 & 4 (tanpa ukuran file, pakai waktu flat)
+  const t3 = setTimeout(() => { setStep(3); setStepDesc(3, 'Mendeteksi dan mengidentifikasi pembicara...'); }, 30000);
+  const t4 = setTimeout(() => { setStep(4); setStepDesc(4, 'Membuat laporan CoP Lesson Learned...'); }, 90000);
+
+  try {
+    const controller = new AbortController();
+    const fetchTimeout = setTimeout(() => controller.abort(), 60 * 60 * 1000);
+    const res = await fetch(API+'/transcribe_local', { method:'POST', body: fd, signal: controller.signal });
+    clearTimeout(fetchTimeout); clearTimeout(t3); clearTimeout(t4);
+    if (!res.ok) { const err = await res.json(); throw new Error(err.detail || 'Server error'); }
+    const json = await res.json();
+    setStep(5); currentId = json.file_id;
+    showResult(json.data, json.has_pdf);
+  } catch(e) {
+    clearTimeout(t3); clearTimeout(t4);
+    document.getElementById('cardProgress').classList.add('hidden');
+    showErr('Error: ' + e.message);
+    resetBtn();
+  }
+}
+
+function showResult(data, hasPdf) {
+  const segs = data.segments || [], spks = data.speakers || [];
+  document.getElementById('stSpk').textContent = spks.length;
+  document.getElementById('stSeg').textContent = segs.length;
+  document.getElementById('stDur').textContent = data.duration || '—';
+  document.getElementById('preview').innerHTML = segs.map(s => `
+    <div class="seg">
+      <span class="seg-t">${s.start}</span>
+      <span class="seg-s">${s.speaker}</span>
+      <span class="seg-x">${s.text}</span>
+    </div>`).join('');
+
+  // Tampilkan kesimpulan AI jika ada
+  const kesEl = document.getElementById('kesimpulanBox');
+  if (data.kesimpulan && data.kesimpulan.trim()) {
+    document.getElementById('kesimpulanContent').textContent = data.kesimpulan;
+    kesEl.style.display = 'block';
+  } else {
+    kesEl.style.display = 'none';
+  }
+
+  const pb = document.getElementById('btnPdf');
+  if (!hasPdf) { pb.style.opacity='0.4'; pb.title='PDF tidak tersedia — install LibreOffice terlebih dahulu'; }
+  else         { pb.style.opacity='';    pb.title=''; }
+  document.getElementById('cardResult').classList.remove('hidden');
+  document.getElementById('btnProses').innerHTML = '<span>🚀</span> Proses &amp; Generate Laporan CoP';
+  setTimeout(() => document.getElementById('cardResult').scrollIntoView({ behavior:'smooth' }), 120);
+}
+
+function dlFile(type) { if (currentId) window.open(API+'/download/'+type+'/'+currentId, '_blank'); }
+function resetAll() {
+  clearFile(); currentId = null;
+  document.getElementById('cardProgress').classList.add('hidden');
+  document.getElementById('cardResult').classList.add('hidden');
+  document.getElementById('btnProses').disabled = true;
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// ── TRANSCRIPT FILE ────────────────────────────────────────────────────────
+document.getElementById('trFile').addEventListener('change', e => pickTr(e.target.files[0]));
+const trdz = document.getElementById('trDrop');
+trdz.addEventListener('dragover',  e => { e.preventDefault(); trdz.classList.add('drag-active'); });
+trdz.addEventListener('dragleave', ()  => trdz.classList.remove('drag-active'));
+trdz.addEventListener('drop',      e  => { e.preventDefault(); trdz.classList.remove('drag-active'); pickTr(e.dataTransfer.files[0]); });
+
+function pickTr(file) {
+  if (!file) return;
+  const ok  = ['txt','docx','vtt'];
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!ok.includes(ext)) {
+    document.getElementById('trErrTxt').textContent = 'Format tidak didukung. Gunakan: VTT, TXT, atau DOCX.';
+    document.getElementById('trErrBox').classList.add('show');
+    return;
+  }
+  trSelFile = file;
+  document.getElementById('trFileName').textContent = file.name;
+  document.getElementById('trFileSize').textContent = fmtSz(file.size);
+  document.getElementById('trPill').classList.remove('hidden');
+  document.getElementById('trErrBox').classList.remove('show');
+  document.getElementById('btnTrProses').disabled = false;
+}
+function clearTrFile() {
+  trSelFile = null;
+  document.getElementById('trFile').value = '';
+  document.getElementById('trPill').classList.add('hidden');
+  document.getElementById('btnTrProses').disabled = true;
+}
+
+// ── TRANSCRIPT PESERTA ────────────────────────────────────────────────────
+(function initTr() {
+  const now  = new Date();
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const elTgl = document.getElementById('tr_tanggal');
+  const elHari = document.getElementById('tr_hari');
+  if (elTgl)  elTgl.value  = now.toISOString().split('T')[0];
+  if (elHari) elHari.value = days[now.getDay()];
+})();
+
+function addTrPeserta() {
+  const tbody = document.getElementById('tr_pesertaBody');
+  const n = tbody.rows.length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="no">${n}</td>
+    <td><input type="text" placeholder="Judul bab / sub-bab"/></td>
+    <td><input type="text" placeholder="Hal." style="text-align:center"/></td>
+    <td><button class="btn-del" onclick="delTrPeserta(this)">✕</button></td>`;
+  tbody.appendChild(tr);
+}
+// (delTrPeserta and getTrPesertaData defined above in daftar isi section)
+
+// ── TRANSCRIPT STEPS ───────────────────────────────────────────────────────
+function setTrStep(n) {
+  for (let i=1; i<=3; i++) {
+    const el = document.getElementById('tr_s'+i);
+    el.classList.remove('active','done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+  }
+}
+
+// ── PROSES TRANSCRIPT ──────────────────────────────────────────────────────
+async function startTranscript() {
+  if (!trSelFile) return;
+  document.getElementById('trCardProgress').classList.remove('hidden');
+  document.getElementById('trCardResult').classList.add('hidden');
+  document.getElementById('btnTrProses').disabled = true;
+  document.getElementById('btnTrProses').innerHTML = '<div class="spinner"></div> Memproses...';
+  document.getElementById('trErrBox').classList.remove('show');
+  setTrStep(1);
+
+  const fd = new FormData();
+  fd.append('file',            trSelFile);
+  fd.append('perihal',         document.getElementById('tr_perihal').value || 'NOTULA RAPAT');
+  fd.append('dasar',           document.getElementById('tr_dasar').value   || '-');
+  fd.append('hari',            document.getElementById('tr_hari').value);
+  fd.append('tanggal',         toIndo(document.getElementById('tr_tanggal').value));
+  fd.append('jam',             document.getElementById('tr_jam').value);
+  fd.append('tempat',          document.getElementById('tr_tempat').value);
+  fd.append('agenda',          document.getElementById('tr_agenda').value);
+  fd.append('jabatan_pejabat', document.getElementById('tr_jabatan_pejabat').value);
+  fd.append('pejabat',         document.getElementById('tr_pejabat').value || '................................');
+  fd.append('notulis',         document.getElementById('tr_notulis').value || '................................');
+  fd.append('peserta',         JSON.stringify(getTrPesertaData()));
+  fd.append('judul_cop',       document.getElementById('tr_judul_cop').value   || '');
+  fd.append('isu_masalah',     document.getElementById('tr_isu_masalah').value || '');
+  fd.append('nomor_sk',        document.getElementById('tr_nomor_sk').value    || '');
+
+  const timers = [
+    setTimeout(() => setTrStep(2), 800),
+    setTimeout(() => setTrStep(3), 2000),
+  ];
+
+  try {
+    const controller2 = new AbortController();
+    const fetchTimeout2 = setTimeout(() => controller2.abort(), 30 * 60 * 1000); // 30 menit
+    const res  = await fetch(API+'/transcript', { method:'POST', body: fd, signal: controller2.signal });
+    clearTimeout(fetchTimeout2);
+    timers.forEach(clearTimeout);
+    if (!res.ok) { const err = await res.json(); throw new Error(err.detail || 'Server error'); }
+    const json = await res.json();
+    setTrStep(4);
+    trCurrentId = json.file_id;
+    showTrResult(json.data, json.has_pdf);
+  } catch(e) {
+    timers.forEach(clearTimeout);
+    document.getElementById('trCardProgress').classList.add('hidden');
+    document.getElementById('trErrTxt').textContent = 'Error: ' + e.message;
+    document.getElementById('trErrBox').classList.add('show');
+    document.getElementById('btnTrProses').disabled = false;
+    document.getElementById('btnTrProses').innerHTML = '<span>📝</span> Format &amp; Generate Laporan CoP';
+  }
+}
+
+function showTrResult(data, hasPdf) {
+  const segs = data.segments || [], spks = data.speakers || [];
+  document.getElementById('trStSpk').textContent = spks.length;
+  document.getElementById('trStSeg').textContent = segs.length;
+  document.getElementById('trStDur').textContent = data.duration || '—';
+  document.getElementById('trPreview').innerHTML = segs.map(s => `
+    <div class="seg">
+      <span class="seg-t">${s.start !== '—' ? s.start : '—'}</span>
+      <span class="seg-s">${s.speaker}</span>
+      <span class="seg-x">${s.text}</span>
+    </div>`).join('');
+
+  // Tampilkan kesimpulan AI jika ada
+  const trKesEl = document.getElementById('trKesimpulanBox');
+  if (data.kesimpulan && data.kesimpulan.trim()) {
+    document.getElementById('trKesimpulanContent').textContent = data.kesimpulan;
+    trKesEl.style.display = 'block';
+  } else {
+    trKesEl.style.display = 'none';
+  }
+
+  const pb = document.getElementById('trBtnPdf');
+  if (!hasPdf) { pb.style.opacity='0.4'; pb.title='PDF tidak tersedia — install LibreOffice terlebih dahulu'; }
+  else         { pb.style.opacity='';    pb.title=''; }
+  document.getElementById('trCardResult').classList.remove('hidden');
+  document.getElementById('btnTrProses').innerHTML = '<span>📝</span> Format &amp; Generate Laporan CoP';
+  setTimeout(() => document.getElementById('trCardResult').scrollIntoView({ behavior:'smooth' }), 120);
+}
+
+function dlTrFile(type) { if (trCurrentId) window.open(API+'/download/'+type+'/'+trCurrentId, '_blank'); }
+function resetTr() {
+  clearTrFile(); trCurrentId = null;
+  document.getElementById('trCardProgress').classList.add('hidden');
+  document.getElementById('trCardResult').classList.add('hidden');
+  document.getElementById('btnTrProses').disabled = true;
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// ── JALANKAN INIT SETELAH SEMUA FUNGSI SIAP ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', initApp);
+
+</script>
+</body>
+</html>

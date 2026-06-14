@@ -1,0 +1,17 @@
+# ============================================================
+#  CoP Lesson Learned AI — Requirements v4.0
+#  Install: pip install -r requirements.txt
+# ============================================================
+
+# ── Web framework ─────────────────────────────────────────────
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+httpx
+
+# ── Tidak lagi diperlukan (dihapus dari v4.0) ─────────────────
+# assemblyai         ← diarization dihapus, tidak perlu lagi
+# openai-whisper     ← pakai Groq Whisper API
+# pyannote.audio     ← tidak digunakan
+# torch              ← tidak diperlukan
